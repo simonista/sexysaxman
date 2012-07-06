@@ -19,13 +19,13 @@
 #   simonista
 
 module.exports = (robot) ->
-  robot.hear /\u266B\s*([\w .-_]+)/i, (msg) ->
+  robot.hear /^\s*\u266B\s*([\w-_]+)\s*\?*\s*$/i, (msg) ->
     getLatestTrack msg
 
-  robot.respond /(?:what's|what is) playing ([\w .-_]+)/i, (msg) ->
+  robot.respond /(?:what's|what is) playing ([\w-_]+)/i, (msg) ->
     getLatestTrack msg
 
-  robot.respond /(?:what's|what is) ([\w .-_]+) (?:playing|listening to)\?*/i, (msg) ->
+  robot.respond /(?:what's|what is) ([\w-_]+) (?:playing|listening to)\?*/i, (msg) ->
     getLatestTrack msg
 
   getLatestTrack = (msg) ->
@@ -58,7 +58,7 @@ module.exports = (robot) ->
   getAmbiguousUserText = (users) ->
     "Be more specific, I know #{users.length} people named like that: #{(user.name for user in users).join(", ")}"
 
-  robot.respond /(?:at|on) lastfm ([\w.-_]+) is ([\w.-_]+)[.!]*$/i, (msg) ->
+  robot.respond /(?:at|on) lastfm ([\w-_]+) is ([\w-_]+)[.!]*$/i, (msg) ->
     name = msg.match[1].trim()
     lastfm_username = msg.match[2].trim()
 
