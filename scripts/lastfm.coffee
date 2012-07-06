@@ -47,9 +47,13 @@ module.exports = (robot) ->
         results = JSON.parse(body)
         if results.error
           msg.send results.message
-          return
-        song = results.recenttracks.track[0]
-        msg.send "#{song.name} by #{song.artist['#text']}"
+        else if results.recenttracks.track?
+          tracks = results.recenttracks.track
+          # tracks can be an array or an object :(
+          song = tracks[0] || tracks
+          msg.send "#{song.name} by #{song.artist['#text']}"
+        else
+          msg.send "#{user} hasn't listened to anything."
 
   getAmbiguousUserText = (users) ->
     "Be more specific, I know #{users.length} people named like that: #{(user.name for user in users).join(", ")}"
